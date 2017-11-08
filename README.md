@@ -2,15 +2,18 @@
 ---
 * Is it possible to create a p2p connection without a signalling server? 
 Yes!
-* How?? copy paste the SDPs between local and remote thats it!
+* How?? copy paste the SDPs between local and remote that's it!
 * Are you kidding?? Nope, Please open `webrtc-noserver.html` in a localhost and go through the steps. 
-* This Server less webRTC concept is only for learning javascript webRTC APIs
+* This Serverless webRTC concept is only for learning javascript webRTC APIs
 
 ### setup
 on macOS/Linux just clone this repo
+
 `
 cd serverless-webrtc
+
 python -m SimpleHTTPServer 8080
+
 http://localhost:8080/webrtc-noserver.html
 `
 ### Usage
@@ -23,5 +26,5 @@ http://localhost:8080/webrtc-noserver.html
 * chat
 * file transfer
 
-
+### Snap
 ![serverless-webrtc](snap.png)
