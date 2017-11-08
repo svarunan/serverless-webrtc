@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Plain webRTC</title>
+	<style type="text/css">
+		.sent{
+			color:blue;
+		}
+	</style>
+</head>
+<body>
+<div>
+	<input type="checkbox" id="enable_chat" onclick="enableChat()" checked> Enable chat
+	<span id=micused style="right:0;position:fixed;"></span>
+</div>
+
+<div>
+	<h4>LocalStream</h4>
+	<input type="checkbox" id="enableAudioFile">Audio File
+	<input type="file" id="streamAudioFile">	
+	<br>
+	<!-- <input type="checkbox" id="enable_mic" checked>Microphone -->
+</div>
+<div>
+	<p>
+		<video width=250 id=local controls autoplay></video>
+		Local
+		<textarea rows="4" cols="50"  id=localOffer></textarea>
+		<button id=localOfferSet>CreateOffer</button>	
+	</p>	
+</div>
+<div>
+	<p>
+		<video width=250 id=remote controls autoplay></video>
+		Remote
+		<textarea id="remoteOffer" rows="4" cols="50" placeholder="Paste remote SDP"></textarea>
+		<button id=remoteOfferGot>Answer</button>
+	</p>	
+</div>
+<div id="chat" style="overflow:scroll;"></div>
+<div>
+	<br><br>
+	<form action="" onsubmit="event.preventDefault();return sendMsg();">
+		<input id=sendTxt type="text" name="" placeholder="chat here" size="50">
+		<button type="submit">send</button>		
+	</form>
+</div>
+<div>
+	<p>
+	File transfer:
+	</p>
+	<div>
+		<progress value="0" id="sendFileProg"></progress>
+		<input type="file" name="" id=fileTransfer>
+		<button type="submit" onclick="sendFile()">send</button>			
+	</div>
+	<div>
+		<p>
+			<progress value="0" id="recFileProg"></progress>
+			<a href="" id=file_download></a>
+		</p>
+	</div>
+</div>
+<script src="js/plainwebrtc.js"></script>
+</body>
+</html>
