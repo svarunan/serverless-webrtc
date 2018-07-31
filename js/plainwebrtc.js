@@ -147,6 +147,11 @@ function fileChannel(e){
 			}
 		}else if(type == "[object String]"){
 			data = JSON.parse(e.data);
+		}else if(type == "[object Blob]"){
+			data = e.data;
+			file_download.href=URL.createObjectURL(data);
+			file_download.innerHTML="download";
+			file_download.download = recFileDom.name;
 		}
 
 		// Handle initial msg exchange
