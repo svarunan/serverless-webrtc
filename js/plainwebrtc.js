@@ -18,7 +18,7 @@ navigator.mediaDevices.getUserMedia({audio:true,video:true}).then(stream=>{
 	localStream = stream;
 	micused.innerHTML = localStream.getAudioTracks()[0].label;
 	pc.addStream(stream);
-	local.src = URL.createObjectURL(stream);
+	local.srcObject = stream;
 	local.muted=true;
 }).catch(errHandler);
 
@@ -56,7 +56,7 @@ pc.oniceconnectionstatechange = function(){
 }
 pc.onaddstream = function(e){
 	console.log('remote onaddstream',e.stream);
-	remote.src = URL.createObjectURL(e.stream);
+	remote.srcObject = e.stream;
 }
 pc.onconnection = function(e){
 	console.log('onconnection ',e);
