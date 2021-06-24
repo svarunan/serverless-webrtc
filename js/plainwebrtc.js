@@ -296,3 +296,23 @@ var audioRTC = function(cb) {
         }
     }
 }
+
+/* Summary
+    //setup your video
+    pc = new RTCPeerConnection
+    navigator.mediaDevices.getUserMedia({ audio: true, video: true })
+    pc.addStream(stream)
+
+    //prepare your sdp1
+    pc.createOffer() - des
+    pc.setLocalDescription(des)
+    pc.onicecandidate
+    pc.localDescription
+    
+    //create sdp from sdp1
+    _remoteOffer = new RTCSessionDescription sdp
+    pc.setRemoteDescription(_remoteOffer)
+    _remoteOffer.type == "offer" && pc.createAnswer() - desc
+    pc.setLocalDescription(description)
+    pc.onaddstream
+*/
