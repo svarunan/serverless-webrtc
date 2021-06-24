@@ -17,6 +17,7 @@ function enableChat() {
 }
 enableChat();
 
+
 navigator.mediaDevices.getUserMedia({ audio: true, video: true }).then(stream => {
     localStream = stream;
     micused.innerHTML = localStream.getAudioTracks()[0].label;
@@ -57,6 +58,7 @@ pc.onicecandidate = function(e) {
 pc.oniceconnectionstatechange = function() {
     console.log('iceconnectionstatechange: ', pc.iceConnectionState);
 }
+
 pc.onaddstream = function(e) {
     console.log('remote onaddstream', e.stream);
     remote.srcObject = e.stream;
