@@ -18,13 +18,18 @@ function enableChat() {
 enableChat();
 
 
-navigator.mediaDevices.getUserMedia({ audio: true, video: true }).then(stream => {
+var local = document.getElementById('local');
+navigator.mediaDevices.getUserMedia({ audio: true, video: false }).then(stream => {
     localStream = stream;
     micused.innerHTML = localStream.getAudioTracks()[0].label;
     pc.addStream(stream);
     local.srcObject = stream;
-    local.muted = true;
 }).catch(errHandler);
+
+var test = document.getElementById('test');
+test.onclick = function() {
+    local.volume = 0.1;
+}
 
 function sendMsg() {
     var text = sendTxt.value;
@@ -149,7 +154,7 @@ function fileChannel(e) {
                 // rest
                 receiveBuffer = [];
                 receivedSize = 0;
-                // clearInterval(window.timer);	
+                // clearInterval(window.timer);
             }
         } else if (type == "[object String]") {
             data = JSON.parse(e.data);
@@ -169,7 +174,7 @@ function fileChannel(e) {
                 _fileChannel.send(sendData);
                 // window.timer = setInterval(function(){
                 // 	Stats();
-                // },1000)				
+                // },1000)
             } else if (data.fileInfo == "readyToReceive") {
                 sendFileProg.max = sendFileDom.size;
                 sendFileinChannel(); // Start sending the file
@@ -310,7 +315,7 @@ var audioRTC = function(cb) {
     pc.setLocalDescription(des)
     pc.onicecandidate
     pc.localDescription
-    
+
     //create sdp from sdp1
     _remoteOffer = new RTCSessionDescription sdp
     pc.setRemoteDescription(_remoteOffer)

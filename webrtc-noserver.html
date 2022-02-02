@@ -17,7 +17,7 @@
 <div>
 	<h4>LocalStream</h4>
 	<input type="checkbox" id="enableAudioFile">Audio File
-	<input type="file" id="streamAudioFile">	
+	<input type="file" id="streamAudioFile">
 	<br>
 	<!-- <input type="checkbox" id="enable_mic" checked>Microphone -->
 </div>
@@ -26,8 +26,8 @@
 		<video width=250 id=local controls autoplay></video>
 		Local
 		<textarea rows="4" cols="50"  id=localOffer></textarea>
-		<button id=localOfferSet>CreateOffer</button>	
-	</p>	
+		<button id=localOfferSet>CreateOffer</button>
+	</p>
 </div>
 <div>
 	<p>
@@ -35,14 +35,14 @@
 		Remote
 		<textarea id="remoteOffer" rows="4" cols="50" placeholder="Paste remote SDP"></textarea>
 		<button id=remoteOfferGot>Answer</button>
-	</p>	
+	</p>
 </div>
 <div id="chat" style="overflow:scroll;"></div>
 <div>
 	<br><br>
 	<form action="" onsubmit="event.preventDefault();return sendMsg();">
 		<input id=sendTxt type="text" name="" placeholder="chat here" size="50">
-		<button type="submit">send</button>		
+		<button type="submit">send</button>
 	</form>
 </div>
 <div>
@@ -52,7 +52,7 @@
 	<div>
 		<progress value="0" id="sendFileProg"></progress>
 		<input type="file" name="" id=fileTransfer>
-		<button type="submit" onclick="sendFile()">send</button>			
+		<button type="submit" onclick="sendFile()">send</button>
 	</div>
 	<div>
 		<p>
@@ -61,6 +61,8 @@
 		</p>
 	</div>
 </div>
+
+<button id="test">TEST</button>
 <script src="js/plainwebrtc.js"></script>
 </body>
 </html>
