@@ -28,3 +28,6 @@ http://localhost:8080/webrtc-noserver.html
 
 ### Snap
 ![serverless-webrtc](snap.png)
+
+### Contribute
+Let's share the Joy together. Let's keep this project super simple. Raise PR if you see something deprecated or not working.
