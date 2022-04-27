@@ -20,7 +20,7 @@ http-server -p 8080 .
 
 http://localhost:8080/index.html
 `
-### Onine demo
+### Online demo
 https://svarunan.github.io/serverless-webrtc/
 
 ### Usage
