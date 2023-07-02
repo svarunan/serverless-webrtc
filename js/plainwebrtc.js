@@ -20,6 +20,7 @@ enableChat();
 
 navigator.mediaDevices.getUserMedia({ audio: true, video: true }).then(stream => {
     localStream = stream;
+    //Display the mircophone being used
     micused.innerHTML = localStream.getAudioTracks()[0].label;
     pc.addStream(stream);
     local.srcObject = stream;
@@ -58,10 +59,15 @@ pc.onicecandidate = function(e) {
 pc.oniceconnectionstatechange = function() {
     console.log('iceconnectionstatechange: ', pc.iceConnectionState);
 }
+// onaddstream is deprecated
+// pc.onaddstream = function(e) {
+//     console.log('remote onaddstream', e.stream);
+//     remote.srcObject = e.stream;
+// }
 
-pc.onaddstream = function(e) {
-    console.log('remote onaddstream', e.stream);
-    remote.srcObject = e.stream;
+pc.ontrack = function (e){
+    console.log('remote ontrack', e.streams);
+    remote.srcObject = e.streams[0];
 }
 pc.onconnection = function(e) {
     console.log('onconnection ', e);

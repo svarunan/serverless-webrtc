@@ -1,4 +1,4 @@
-### serverless-webrtc
+### Serverless-webrtc
 ---
 * Is it possible to create a p2p connection without a signalling server? 
 Yes!
@@ -6,7 +6,7 @@ Yes!
 * Are you kidding?? Nope, Please open `index.html` in a localhost and go through the steps. 
 * This Serverless webRTC concept is only for learning javascript webRTC APIs
 
-### setup
+### Setup
 on macOS/Linux just clone this repo and start a http server
 
 `
@@ -28,7 +28,7 @@ https://svarunan.github.io/serverless-webrtc/
 * click on createOffer in A, copy paste the sdp in B's Remote text box, click "answer" button and this will add sdp to local text box.
 * Of B's local text box, copy paste sdp text in to A's Remote text box and click on "answer" button, then you should be able to see p2p connection working
 
-### features
+### Features
 * peer to peer video calling
 * chat
 * file transfer
