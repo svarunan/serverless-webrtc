@@ -1,4 +1,4 @@
-var conf = { iceServers: [{"urls":"stun:stun.l.google.com:19302"}] };
+var conf = { iceServers: [{ "urls": "stun:stun.l.google.com:19302" }] };
 var pc = new RTCPeerConnection(conf);
 var localStream, _fileChannel, chatEnabled, context, source,
     _chatChannel, sendFileDom = {},
@@ -15,17 +15,26 @@ function errHandler(err) {
 function enableChat() {
     enable_chat.checked ? (chatEnabled = true) : (chatEnabled = false);
 }
+
+function getMedia(mediaType) {
+    var constraints = { audio: true, video: true }
+    if (mediaType == 'audio') {
+        constraints.video = false;
+    } else {
+        constraints.video = true
+    }
+    navigator.mediaDevices.getUserMedia(constraints).then(stream => {
+        localStream = stream;
+        local.srcObject = stream;
+        local.muted = true;
+        stream.getTracks().forEach((track) => {
+            pc.addTrack(track, stream);
+        });
+    }).catch(errHandler);
+}
+
 enableChat();
-
-
-navigator.mediaDevices.getUserMedia({ audio: true, video: true }).then(stream => {
-    localStream = stream;
-    //Display the mircophone being used
-    micused.innerHTML = localStream.getAudioTracks()[0].label;
-    pc.addStream(stream);
-    local.srcObject = stream;
-    local.muted = true;
-}).catch(errHandler);
+getMedia("both")
 
 function sendMsg() {
     var text = sendTxt.value;
@@ -34,7 +43,7 @@ function sendMsg() {
     sendTxt.value = "";
     return false;
 }
-pc.ondatachannel = function(e) {
+pc.ondatachannel = function (e) {
     if (e.channel.label == "fileChannel") {
         console.log('fileChannel Received -', e);
         _fileChannel = e.channel;
@@ -47,7 +56,7 @@ pc.ondatachannel = function(e) {
     }
 };
 
-pc.onicecandidate = function(e) {
+pc.onicecandidate = function (e) {
     var cand = e.candidate;
     if (!cand) {
         console.log('iceGatheringState complete\n', pc.localDescription.sdp);
@@ -56,37 +65,32 @@ pc.onicecandidate = function(e) {
         console.log(cand.candidate);
     }
 }
-pc.oniceconnectionstatechange = function() {
+pc.oniceconnectionstatechange = function () {
     console.log('iceconnectionstatechange: ', pc.iceConnectionState);
 }
-// onaddstream is deprecated
-// pc.onaddstream = function(e) {
-//     console.log('remote onaddstream', e.stream);
-//     remote.srcObject = e.stream;
-// }
 
-pc.ontrack = function (e){
+pc.ontrack = function (e) {
     console.log('remote ontrack', e.streams);
     remote.srcObject = e.streams[0];
 }
-pc.onconnection = function(e) {
+pc.onconnection = function (e) {
     console.log('onconnection ', e);
 }
 
-remoteOfferGot.onclick = function() {
+remoteOfferGot.onclick = function () {
     var _remoteOffer = new RTCSessionDescription(JSON.parse(remoteOffer.value));
     console.log('remoteOffer \n', _remoteOffer);
-    pc.setRemoteDescription(_remoteOffer).then(function() {
+    pc.setRemoteDescription(_remoteOffer).then(function () {
         console.log('setRemoteDescription ok');
         if (_remoteOffer.type == "offer") {
-            pc.createAnswer().then(function(description) {
+            pc.createAnswer().then(function (description) {
                 console.log('createAnswer 200 ok \n', description);
-                pc.setLocalDescription(description).then(function() {}).catch(errHandler);
+                pc.setLocalDescription(description).then(function () { }).catch(errHandler);
             }).catch(errHandler);
         }
     }).catch(errHandler);
 }
-localOfferSet.onclick = function() {
+localOfferSet.onclick = function () {
     if (chatEnabled) {
         _chatChannel = pc.createDataChannel('chatChannel');
         _fileChannel = pc.createDataChannel('fileChannel');
@@ -97,7 +101,7 @@ localOfferSet.onclick = function() {
     pc.createOffer().then(des => {
         console.log('createOffer ok ');
         pc.setLocalDescription(des).then(() => {
-            setTimeout(function() {
+            setTimeout(function () {
                 if (pc.iceGatheringState == "complete") {
                     return;
                 } else {
@@ -112,7 +116,7 @@ localOfferSet.onclick = function() {
 }
 
 //File transfer
-fileTransfer.onchange = function(e) {
+fileTransfer.onchange = function (e) {
     var files = fileTransfer.files;
     if (files.length > 0) {
         file = files[0];
@@ -135,10 +139,10 @@ function sendFile() {
 
 
 function fileChannel(e) {
-    _fileChannel.onopen = function(e) {
+    _fileChannel.onopen = function (e) {
         console.log('file channel is open', e);
     }
-    _fileChannel.onmessage = function(e) {
+    _fileChannel.onmessage = function (e) {
         // Figure out data type
         var type = Object.prototype.toString.call(e.data),
             data;
@@ -183,29 +187,29 @@ function fileChannel(e) {
             console.log('_fileChannel: ', data.fileInfo);
         }
     }
-    _fileChannel.onclose = function() {
+    _fileChannel.onclose = function () {
         console.log('file channel closed');
     }
 }
 
 function chatChannel(e) {
-    _chatChannel.onopen = function(e) {
+    _chatChannel.onopen = function (e) {
         console.log('chat channel is open', e);
     }
-    _chatChannel.onmessage = function(e) {
+    _chatChannel.onmessage = function (e) {
         chat.innerHTML = chat.innerHTML + "<pre>" + e.data + "</pre>"
     }
-    _chatChannel.onclose = function() {
+    _chatChannel.onclose = function () {
         console.log('chat channel closed');
     }
 }
 
 function sendFileinChannel() {
     var chunkSize = 16384;
-    var sliceFile = function(offset) {
+    var sliceFile = function (offset) {
         var reader = new window.FileReader();
-        reader.onload = (function() {
-            return function(e) {
+        reader.onload = (function () {
+            return function (e) {
                 _fileChannel.send(e.target.result);
                 if (file.size > offset + e.target.result.byteLength) {
                     window.setTimeout(sliceFile, 0, offset + chunkSize);
@@ -220,7 +224,7 @@ function sendFileinChannel() {
 }
 
 function Stats() {
-    pc.getStats(null, function(stats) {
+    pc.getStats(null, function (stats) {
         for (var key in stats) {
             var res = stats[key];
             console.log(res.type, res.googActiveConnection);
@@ -235,15 +239,15 @@ function Stats() {
     });
 }
 
-streamAudioFile.onchange = function() {
+streamAudioFile.onchange = function () {
     console.log('streamAudioFile');
     context = new AudioContext();
     var file = streamAudioFile.files[0];
     if (file) {
         if (file.type.match('audio*')) {
             var reader = new FileReader();
-            reader.onload = (function(readEvent) {
-                context.decodeAudioData(readEvent.target.result, function(buffer) {
+            reader.onload = (function (readEvent) {
+                context.decodeAudioData(readEvent.target.result, function (buffer) {
                     // create an audio source and connect it to the file buffer
                     source = context.createBufferSource();
                     source.buffer = buffer;
@@ -261,7 +265,9 @@ streamAudioFile.onchange = function() {
                     local.srcObject = remote.stream
                     local.muted = true;
                     // add the stream to the peer connection
-                    pc.addStream(remote.stream);
+                    remote.stream.getTracks().forEach((track) => {
+                        pc.addTrack(track, stream);
+                    });
 
                     // create a SDP offer for the new stream
                     // pc.createOffer(setLocalAndSendMessage);
@@ -273,15 +279,15 @@ streamAudioFile.onchange = function() {
     }
 }
 
-var audioRTC = function(cb) {
+var audioRTC = function (cb) {
     console.log('streamAudioFile');
     window.context = new AudioContext();
     var file = streamAudioFile.files[0];
     if (file) {
         if (file.type.match('audio*')) {
             var reader = new FileReader();
-            reader.onload = (function(readEvent) {
-                context.decodeAudioData(readEvent.target.result, function(buffer) {
+            reader.onload = (function (readEvent) {
+                context.decodeAudioData(readEvent.target.result, function (buffer) {
                     // create an audio source and connect it to the file buffer
                     var source = context.createBufferSource();
                     source.buffer = buffer;
