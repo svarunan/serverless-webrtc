@@ -10,10 +10,12 @@
 </head>
 <body>
 <div>
+	<h4> Start by: </h4>
+	<input type="checkbox" id="enable_audio" onclick="getMedia('audio')"> Enable Audio only
+	<input type="checkbox" id="enable_av" onclick="getMedia('both')" checked> Enable Audio Video
 	<input type="checkbox" id="enable_chat" onclick="enableChat()" checked> Enable chat
-	<span id=micused style="right:0;position:fixed;"></span>
-</div>
 
+</div>
 <div>
 	<h4>LocalStream</h4>
 	<input type="checkbox" id="enableAudioFile">Audio File
